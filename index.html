@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미대생 이야기</title>
+  <style type="text/css">
+    @font-face {
+    font-family: 'NeoDunggeunmo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      font-family: NeoDunggeunmo, sans-serif;
+      overflow: hidden;
+    }
+
+    #start-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('davinci.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: 10;
+    }
+
+    #logo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+            background-image: url('logo.png');
+      background-size: cover;
+      background-position: center;
+            z-index: 11;
+    }
+
+
+    #game-ui {
+      display: none;
+    }
+
+    #game-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('gameback.png');
+      background-size: cover;
+      background-position: center;
+    }
+#sulmyung {
+  display: none; /* 초기 상태에서는 숨김 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('sulmyung.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 10;
+  cursor: pointer;
+}
+
+    #dialogue-container {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 100px;
+      box-sizing: border-box;
+    }
+
+    #dialogue-box {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      padding: 100px;
+      color: white;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    #character-name {
+      position: absolute;
+      top: -30px;
+      left: 20px;
+      background: #4a90e2;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    #dialogue-text {
+      margin-top: 10px;
+      font-size: 30px;
+      line-height: 170%;
+    }
+
+    #keyword-options {
+      position: absolute;
+
+      top: -100px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+#keyword-options button {
+  width: 100%;
+  padding: 20px;
+  background-image: url('button.png'); /* 업로드한 이미지를 배경으로 사용 */
+  background-size: cover; /* 이미지가 버튼 크기에 맞게 덮도록 설정 */
+  background-repeat: no-repeat;
+  background-position: center;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+  font-family: NeoDunggeunmo, sans-serif; /* 폰트 스타일 유지 */
+}
+
+#keyword-options button:hover {
+  background-image: url('button.png'); /* 버튼에 마우스 올렸을 때도 이미지 유지 */
+  opacity: 0.9; /* 살짝 투명도를 주어 마우스 호버 효과 */
+}
+
+#end-button {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px; /* 이미지 너비에 맞추기 */
+  height: auto; /* 이미지 비율 유지 */
+  cursor: pointer;
+  border: none;
+}
+     #api-key-screen {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 15;
+    }
+
+    #api-key-screen input {
+      width: 250px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #api-key-screen button {
+      padding: 10px;
+      font-size: 16px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    #game-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px; /* 필요에 따라 크기 조절 */
+    animation: float 3s ease-in-out infinite; /* 애니메이션 적용 */
+    z-index: 12; /* 다른 요소 위에 표시 */
+}
+
+/* 위아래로 천천히 떠다니는 애니메이션 */
+@keyframes float {
+    0% {
+        transform: translate(-50%, -45%);
+    }
+    50% {
+        transform: translate(-50%, -55%);
+    }
+    100% {
+        transform: translate(-50%, -45%);
+    }
+}
+
+   #final-gif {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px; /* 필요에 따라 크기 조절 */ /* 애니메이션 적용 */
+    z-index: 12; /* 다른 요소 위에 표시 */
+}
+  </style>
+</head>
+<body>
+  <div id="api-key-screen">
+    <h2>비밀의 키 입력</h2>
+    <input type="text" id="api-key-input" placeholder="비밀의 키를 입력하세요" autofocus>
+    <p><a href="https://outstanding-nitrogen-37e.notion.site/api-1238fee049fb80059437e6db855eb5f1">비밀의 키 얻기</a>
+    <button id="api-key-submit" style="font-family: NeoDunggeunmo, sans-serif;">게임 시작</button>
+  </div>
+  
+      <div id="logo"></div>
+  <div id="start-screen" style="background-size: cover;">
+  </div>
+
+
+  <div id="game-ui">
+    <div id="sulmyung" alt="Introduction" style="display: none;"></div>
+    <div id="game-background"></div>
+    <img id="game-gif" src="tech1.gif" alt="Random GIF">
+    <img id="final-gif" src="마무리.gif" alt="Final GIF" style="display: none;"> <!-- 랜덤 gif 추가 -->
+    <div id="dialogue-container">
+      <div id="dialogue-box">
+        <div id="character-name">이야기꾼</div>
+        <div id="dialogue-text"></div>
+      </div>
+      <div id="keyword-options"></div> <!-- 키워드 옵션 위치 수정 -->
+      <img id="end-button" src="end-button.png" alt="End Button" style="display: none;">
+    </div>
+  </div>
+
+  <script src="app.js" type="text/javascript"></script>
+</body>
+</html>
