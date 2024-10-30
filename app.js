@@ -189,7 +189,7 @@ async function continueStory(prompt) {
     optionsDiv.style.display = 'none'; // 키워드 선택 직후 버튼 숨기기
     storyText += `\n\n선택된 키워드: ${keyword}`;
     dialogueText.innerText = `선택된 키워드: ${keyword}(으)로 이야기가 계속됩니다...`;
-
+    updateBackgroundImage();
     // 이야기 진행 상태에 따라 전개 지시
     if (keywordSelections === 0) {
         progressionText = "이야기의 새로운 전개를 시작해줘.";
