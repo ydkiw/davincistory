@@ -186,6 +186,7 @@ async function continueStory(prompt) {
   
   // 키워드 선택 후 이야기 전개
   async function chooseKeyword(keyword) {
+    optionsDiv.style.display = 'none';
     storyText += `\n\n선택된 키워드: ${keyword}`;
     dialogueText.innerText = `선택된 키워드: ${keyword}(으)로 이야기가 계속됩니다...`;
 
