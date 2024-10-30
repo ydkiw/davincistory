@@ -280,16 +280,14 @@ gifElement.style.transform = "translate(-50%, -50%)"; // 화면 중앙에 위치
         if (!initialStoryGenerated) {
             // 초기 스토리를 한 번만 설정
             generateInitialStory(); 
-            setRandomGif(); // 초기 gif 설정
             startScreen.style.display = 'none';
             gameUI.style.display = 'block';
         } else if (passageCount < maxPassages) {
-            // 키워드 선택 이후, 계속 이야기 진행 시 progressionText를 그대로 사용
+            setRandomGif(); // 엔터를 치자마자 GIF 변경
             const nextPassage = await continueStory(storyText + `\n${progressionText}`);
             dialogueText.innerText = nextPassage;
             storyText += "\n" + nextPassage;
             passageCount++;
-            setRandomGif(); // 초기 gif 설정
 
             // 최대 횟수 도달 시, 키워드 선택 화면으로 전환
             if (passageCount === maxPassages) {
