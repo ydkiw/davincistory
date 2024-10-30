@@ -38,6 +38,8 @@ const optionsDiv = document.getElementById('keyword-options');
 const endButton = document.getElementById('end-button');
 const gameBackground = document.getElementById('game-background');
 const introImage = document.getElementById('sulmyung');
+const backgroundMusic = document.getElementById("background-music");
+backgroundMusic.play();
 
 let userApiKey = ''; // 사용자가 입력한 API 키를 저장할 변수
 let storyText = "이제부터 당신의 이야기가 시작됩니다."; // 초기 스토리 시작
@@ -306,7 +308,7 @@ if (!initialStoryGenerated) {
 
 // 마무리 버튼 클릭 시 스토리 요약 창 표시
 endButton.addEventListener('click', () => {
-  const summaryWindow = window.open("", "Story Summary", "width=600,height=400");
+  const summaryWindow = window.open("", "Story Summary", "width=800,height=auto");
   summaryWindow.document.write("<h1>스토리 요약</h1><pre>" + storyText + "</pre>");
   summaryWindow.document.close();
 });
