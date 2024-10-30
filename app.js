@@ -96,32 +96,47 @@ apiKeySubmit.addEventListener('click', () => {
     }
   });
 
+  async function typeText(element, text, delay = 50) {
+    element.innerHTML = ''; // innerHTML로 변경하여 HTML 형식으로 공백 처리
+    for (let i = 0; i < text.length; i++) {
+        // 공백일 경우 '&nbsp;'로 대체하여 추가
+        const char = text[i] === ' ' ? '&nbsp;' : text[i];
+        element.innerHTML += char;
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+}
+
 // GPT-4o 미니 API 호출
 async function continueStory(prompt) {
-    try {
+  try {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userApiKey}` // 사용자가 입력한 API 키 사용
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [{ role: "system", content: "다빈치관에서 야작을 하고 있는 미대생의 환상적인 독특한 스토리를 생성해줘. 이야기의 흐름을 유지하면서도, 온전한 문장으로 끝내줘." }, { role: "user", content: prompt }],
-          max_tokens: 200,
-          n: 1,
-          stop: "\n\n",
-          temperature: 0.7
-        })
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${userApiKey}` // 사용자가 입력한 API 키 사용
+          },
+          body: JSON.stringify({
+              model: "gpt-4o-mini",
+              messages: [{ role: "system", content: "다빈치관에서 야작을 하고 있는 미대생의 환상적인 독특한 스토리를 생성해줘. 이야기의 흐름을 유지하면서도, 온전한 문장으로 끝내줘." }, { role: "user", content: prompt }],
+              max_tokens: 200,
+              n: 1,
+              stop: "\n\n",
+              temperature: 0.7
+          })
       });
-  
+
       const data = await response.json();
-      return data.choices[0].message.content;
-    } catch (error) {
+      const newText = data.choices[0].message.content;
+
+      // 타이핑 효과로 텍스트 출력
+      await typeText(dialogueText, newText);
+
+      return newText;
+  } catch (error) {
       console.error("Story generation error: ", error);
       return "스토리를 불러오는데 문제가 발생했습니다.";
-    }
-    }
+  }
+}
 
     // 키워드 무작위 생성 요청
     async function generateRandomKeywords() {
