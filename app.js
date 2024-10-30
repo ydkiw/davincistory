@@ -38,8 +38,6 @@ const optionsDiv = document.getElementById('keyword-options');
 const endButton = document.getElementById('end-button');
 const gameBackground = document.getElementById('game-background');
 const introImage = document.getElementById('sulmyung');
-const backgroundMusic = document.getElementById("background-music");
-backgroundMusic.play();
 
 let userApiKey = ''; // 사용자가 입력한 API 키를 저장할 변수
 let storyText = "이제부터 당신의 이야기가 시작됩니다."; // 초기 스토리 시작
@@ -188,10 +186,10 @@ const finalGifElement = document.getElementById("final-gif");
 
 // 키워드 선택 후 이야기 전개
 async function chooseKeyword(keyword) {
-  optionsDiv.style.display = 'none';
+  optionsDiv.style.display = 'none'; // 키워드 선택 직후 버튼 숨기기
   storyText += `\n\n선택된 키워드: ${keyword}`;
   dialogueText.innerText = `선택된 키워드: ${keyword}(으)로 이야기가 계속됩니다...`;
-
+  updateBackgroundImage();
   // 이야기 진행 상태에 따라 전개 지시
   if (keywordSelections === 0) {
       progressionText = "이야기의 새로운 전개를 시작해줘.";
@@ -206,7 +204,6 @@ async function chooseKeyword(keyword) {
   const newStory = await continueStory(storyText + `\n${progressionText}`);
   storyText += "\n" + newStory;
   dialogueText.innerText = newStory;
-  optionsDiv.style.display = 'none';
   gifElement.style.display = 'block'; // 키워드 선택 후 gif 다시 표시
   keywordSelections++;
   
@@ -221,20 +218,20 @@ async function chooseKeyword(keyword) {
 
   // 3번 키워드를 선택하면 결말로 이어지는 이야기 완성
   if (keywordSelections === 3) {
-    gifElement.style.display = 'none'; // 기존 tech gif 숨기기
-    finalGifElement.style.display = 'block'; // 마무리 gif 표시
+      gifElement.style.display = 'none'; // 기존 tech gif 숨기기
+      finalGifElement.style.display = 'block'; // 마무리 gif 표시
 
-    // 결말 완성과 마무리 버튼 표시
-    for (let i = 0; i < 3; i++) {
-        const additionalStory = await continueStory(storyText + "\n마지막 결말을 완성된 문장으로 지어줘.");
-        storyText += "\n" + additionalStory;
-        dialogueText.innerText = additionalStory;
-    }
-    endButton.style.display = 'block'; // 마무리 버튼 표시
-    finalGifElement.style.display = 'none'; // 마무리 버튼이 나타날 때 마무리 gif 숨기기
-}
+      // 결말 완성과 마무리 버튼 표시
+      for (let i = 0; i < 3; i++) {
+          const additionalStory = await continueStory(storyText + "\n마지막 결말을 완성된 문장으로 지어줘.");
+          storyText += "\n" + additionalStory;
+          dialogueText.innerText = additionalStory;
+      }
+      endButton.style.display = 'block'; // 마무리 버튼 표시
+      finalGifElement.style.display = 'none'; // 마무리 버튼이 나타날 때 마무리 gif 숨기기
+  }
 
-passageCount = 0;
+  passageCount = 0;
 }
 
 // gif 파일 배열
@@ -308,7 +305,7 @@ if (!initialStoryGenerated) {
 
 // 마무리 버튼 클릭 시 스토리 요약 창 표시
 endButton.addEventListener('click', () => {
-  const summaryWindow = window.open("", "Story Summary", "width=800,height=auto");
+  const summaryWindow = window.open("", "Story Summary", "width=600,height=400");
   summaryWindow.document.write("<h1>스토리 요약</h1><pre>" + storyText + "</pre>");
   summaryWindow.document.close();
 });
